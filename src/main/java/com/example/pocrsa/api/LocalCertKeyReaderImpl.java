@@ -3,7 +3,6 @@ package com.example.pocrsa.api;
 import com.example.pocrsa.api.config.FieldEncryptionConfig;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +16,7 @@ import java.security.PublicKey;
 import java.security.spec.KeySpec;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,7 +60,7 @@ public class LocalCertKeyReaderImpl implements KeyReader {
             String pem = bufferedReader.lines()
                     .filter(value -> !value.isBlank() && !isHeader(value) && !isFooter(value))
                     .collect(Collectors.joining(""));
-            return Base64.decodeBase64(pem);
+            return Base64.getDecoder().decode(pem);
         }
     }
 }
